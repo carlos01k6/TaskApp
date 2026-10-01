@@ -1,5 +1,23 @@
 .form-content {
   --background: var(--ion-background-color, #f6f8f5);
+  --color: #20352d;
+}
+
+ion-header ion-toolbar {
+  --background: #fff;
+  --color: #20352d;
+}
+
+ion-title {
+  color: #20352d;
+}
+
+ion-input,
+ion-textarea,
+ion-select {
+  --color: #20352d;
+  --placeholder-color: #687c72;
+  --placeholder-opacity: 1;
 }
 
 .form-intro {
