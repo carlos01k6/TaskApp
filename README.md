@@ -11,7 +11,7 @@ Aplicación móvil híbrida para organizar tareas académicas por prioridad, mar
 ## Clonar, instalar y ejecutar
 
 ```bash
-git clone https://github.com/carlos01k6/TaskApp.git
+git clone https://github.com/carlos01k6/TaskApp.git taskapp
 cd taskapp
 npm install
 ionic serve
