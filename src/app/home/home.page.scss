@@ -1,0 +1,23 @@
+.app-header ion-toolbar { --background: #f6f8f5; --min-height: 58px; --padding-start: 20px; --padding-end: 20px; }
+.app-header ion-title { padding-inline-start: 10px; color: #20352d; font-size: 17px; font-weight: 750; }
+.header-caption { color: #668075; font-size: 10px; font-weight: 750; }
+.home-content { --background: #f6f8f5; }
+.page-shell { width: min(100%, 680px); min-height: 100%; margin: 0 auto; padding: 27px 20px 100px; }
+.welcome-block { padding: 25px 23px 27px; border-radius: 12px; background: #e5efe8; }
+.eyebrow, .section-kicker { margin: 0; color: #38755e; font-size: 10px; font-weight: 750; }
+.welcome-block h1 { margin: 12px 0 9px; color: #20352d; font-size: 30px; font-weight: 750; line-height: 1.12; }
+.welcome-copy { max-width: 30ch; margin: 0; color: #556d62; font-size: 13px; line-height: 1.5; }
+.task-section { margin-top: 31px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+.section-heading h2 { margin: 5px 0 0; color: #20352d; font-size: 21px; font-weight: 750; }
+.task-count { padding-bottom: 3px; color: #687c72; font-size: 12px; }
+.task-list { padding: 0; background: transparent; }
+.empty-state { display: grid; justify-items: center; padding: 31px 20px 35px; border: 1px dashed #c9d5cc; border-radius: 10px; text-align: center; }
+.empty-icon { display: grid; width: 48px; height: 48px; place-items: center; border-radius: 50%; background: #e5efe8; color: #38755e; font-size: 22px; }
+.empty-state h3 { margin: 15px 0 5px; color: #20352d; font-size: 15px; font-weight: 700; }
+.empty-state p { max-width: 30ch; margin: 0; color: #687c72; font-size: 13px; line-height: 1.5; }
+ion-fab-button { --background: #23765d; --background-activated: #185a46; --box-shadow: 0 5px 14px rgb(32 73 55 / 22%); }
+.app-footer ion-toolbar { --background: #fff; --border-color: #e6ebe6; --min-height: 48px; --padding-start: 20px; --padding-end: 20px; display: flex; align-items: center; color: #61736a; font-size: 12px; }
+.app-footer ion-icon { margin-inline-end: 8px; color: #23765d; font-size: 17px; }
+.footer-divider { margin-inline: 7px; color: #98a59d; }
+@media (min-width: 600px) { .page-shell { padding-top: 36px; } .welcome-block { padding: 31px 29px 33px; } }

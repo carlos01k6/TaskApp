@@ -1,0 +1,61 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <ion-icon slot="start" name="book-outline" aria-hidden="true"></ion-icon>
+    <ion-title>TaskApp</ion-title>
+    <span slot="end" class="header-caption">ESTUDIO</span>
+  </ion-toolbar>
+</ion-header>
+@let tareas = tareas$ | async;
+
+<ion-content [fullscreen]="true" class="home-content">
+  @if (tareas) {
+  <main class="page-shell">
+    <section class="welcome-block">
+      <p class="eyebrow">TU ESPACIO ACADÉMICO</p>
+      <h1>Avanza a tu<br />propio ritmo.</h1>
+      <p class="welcome-copy">Un paso a la vez. Lo importante ya tiene su lugar.</p>
+    </section>
+    <section class="task-section" aria-labelledby="task-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">EN TU AGENDA</p>
+          <h2 id="task-heading">Mis tareas</h2>
+        </div>
+        <span class="task-count">{{ tareas.length }} {{ tareas.length === 1 ? 'tarea' : 'tareas' }}</span>
+      </div>
+      @if (tareas.length > 0) {
+      <ion-list class="task-list" lines="none">
+        @for (tarea of tareas; track tarea.id) {
+        <app-tarea-item
+          [tarea]="tarea"
+          (alternarSolicitado)="alternarTarea($event)"
+          (eliminarSolicitado)="eliminarTarea($event)"
+        ></app-tarea-item>
+        }
+      </ion-list>
+      } @else {
+        <div class="empty-state">
+          <div class="empty-icon"><ion-icon name="clipboard-outline" aria-hidden="true"></ion-icon></div>
+          <h3>No tienes tareas pendientes</h3>
+          <p>Cuando tengas algo por entregar, añádelo aquí para tenerlo presente.</p>
+        </div>
+      }
+    </section>
+  </main>
+  }
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button aria-label="Añadir tarea" (click)="abrirFormulario()">
+      <ion-icon name="add" aria-hidden="true"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+<ion-footer class="app-footer">
+  <ion-toolbar>
+    <ion-icon slot="start" name="checkmark-done-outline" aria-hidden="true"></ion-icon>
+    @if (tareas) {
+      <span>{{ tareas.length }} {{ tareas.length === 1 ? 'tarea' : 'tareas' }}</span>
+      <span class="footer-divider" aria-hidden="true">·</span>
+      <span>{{ contarCompletadas(tareas) }} completadas</span>
+    }
+  </ion-toolbar>
+</ion-footer>

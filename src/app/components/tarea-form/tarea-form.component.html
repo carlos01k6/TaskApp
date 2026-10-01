@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nueva tarea</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="form-content">
+  <form [formGroup]="formulario" (ngSubmit)="guardar()" novalidate>
+    <div class="form-intro">
+      <p class="eyebrow">ORGANIZA TU ESTUDIO</p>
+      <h2>Una cosa a la vez.</h2>
+      <p>Añade los detalles y elige qué tan pronto necesita tu atención.</p>
+    </div>
+
+    <ion-item class="form-field" lines="none">
+      <ion-input
+        label="Título"
+        labelPlacement="stacked"
+        placeholder="Ej. Entregar ensayo de historia"
+        formControlName="titulo"
+        maxlength="80"
+        autocomplete="off"
+      ></ion-input>
+    </ion-item>
+    @if (formulario.controls.titulo.touched && formulario.controls.titulo.hasError('required')) {
+      <ion-text class="field-error" color="danger">El título es obligatorio.</ion-text>
+    }
+    @if (formulario.controls.titulo.touched && formulario.controls.titulo.hasError('minlength')) {
+      <ion-text class="field-error" color="danger">Mínimo 5 caracteres.</ion-text>
+    }
+    @if (formulario.controls.titulo.touched && formulario.controls.titulo.hasError('maxlength')) {
+      <ion-text class="field-error" color="danger">Máximo 80 caracteres.</ion-text>
+    }
+
+    <ion-item class="form-field" lines="none">
+      <ion-textarea
+        label="Descripción"
+        labelPlacement="stacked"
+        placeholder="Incluye los detalles importantes"
+        formControlName="descripcion"
+        maxlength="120"
+        rows="3"
+        autoGrow="true"
+      ></ion-textarea>
+    </ion-item>
+    @if (formulario.controls.descripcion.touched && formulario.controls.descripcion.hasError('required')) {
+      <ion-text class="field-error" color="danger">La descripción es obligatoria.</ion-text>
+    }
+    @if (formulario.controls.descripcion.touched && formulario.controls.descripcion.hasError('maxlength')) {
+      <ion-text class="field-error" color="danger">Máximo 120 caracteres.</ion-text>
+    }
+
+    <ion-item class="form-field" lines="none">
+      <ion-select label="Prioridad" labelPlacement="stacked" formControlName="prioridad" interface="popover">
+        <ion-select-option value="Alta">Alta</ion-select-option>
+        <ion-select-option value="Media">Media</ion-select-option>
+        <ion-select-option value="Baja">Baja</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </form>
+</ion-content>
+
+<ion-footer class="form-footer">
+  <ion-toolbar>
+    <div class="form-actions">
+      <ion-button fill="clear" color="medium" (click)="cancelar()">Cancelar</ion-button>
+      <ion-button [disabled]="formulario.invalid" (click)="guardar()">Guardar</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

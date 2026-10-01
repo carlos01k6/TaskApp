@@ -1,0 +1,59 @@
+.form-content {
+  --background: var(--ion-background-color, #f6f8f5);
+}
+
+.form-intro {
+  padding: 24px 20px 12px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--ion-color-success-shade);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.form-intro h2 {
+  margin: 0;
+  color: var(--ion-color-dark);
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.form-intro > p:last-child {
+  max-width: 34ch;
+  margin: 8px 0 0;
+  color: var(--ion-color-medium-shade);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.form-field {
+  --background: var(--ion-color-step-50, #f7f9f6);
+  --border-radius: 9px;
+  --padding-start: 14px;
+  margin: 8px 20px 0;
+  border: 1px solid var(--ion-color-step-150, #e3e8e1);
+}
+
+.field-error {
+  display: block;
+  margin: 5px 22px 0;
+  font-size: 12px;
+}
+
+.form-footer ion-toolbar {
+  --background: var(--ion-background-color, #f6f8f5);
+  --padding-start: 14px;
+  --padding-end: 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.form-actions ion-button {
+  min-height: 42px;
+}
