@@ -17,6 +17,16 @@
       slot="end"
       fill="clear"
       color="medium"
+      class="edit-button"
+      aria-label="Editar tarea"
+      (click)="editarSolicitado.emit(tarea)"
+    >
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      slot="end"
+      fill="clear"
+      color="medium"
       class="delete-button"
       aria-label="Eliminar tarea"
       (click)="solicitarEliminacion()"

@@ -33,7 +33,7 @@ src/app/
 
 - [x] Inicio con resumen, listado, estado vacío y botón flotante para crear tareas.
 - [x] Título, descripción y prioridades Alta, Media o Baja con distintivo de color.
-- [x] Formulario modal reactivo con validación y controles para guardar o cancelar.
+- [x] Formulario modal reactivo para crear y editar tareas, con validación.
 - [x] Marcar tareas como completadas, con texto tachado y opacidad reducida.
 - [x] Eliminar desde el botón o deslizando el elemento, con confirmación.
 - [x] Actualización reactiva mediante `BehaviorSubject` y persistencia en `localStorage`.

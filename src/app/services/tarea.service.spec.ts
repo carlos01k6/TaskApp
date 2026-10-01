@@ -48,6 +48,31 @@ describe('TareaService', () => {
     expect(JSON.parse(localStorage.getItem('taskapp_tareas') ?? '[]')).toEqual([]);
   });
 
+  it('edita los datos sin cambiar id ni estado de completado', () => {
+    const servicio = TestBed.inject(TareaService);
+    const tarea = servicio.agregarTarea({
+      titulo: 'Preparar exposición',
+      descripcion: 'Repasar las diapositivas',
+      prioridad: 'Media',
+    });
+    servicio.alternarCompletada(tarea.id);
+
+    servicio.editarTarea(tarea.id, {
+      titulo: 'Exposición de biología',
+      descripcion: 'Añadir las fuentes',
+      prioridad: 'Alta',
+    });
+
+    expect(servicio.obtenerTareas()[0]).toEqual({
+      ...tarea,
+      titulo: 'Exposición de biología',
+      descripcion: 'Añadir las fuentes',
+      prioridad: 'Alta',
+      completada: true,
+    });
+    expect(JSON.parse(localStorage.getItem('taskapp_tareas') ?? '[]')).toEqual(servicio.obtenerTareas());
+  });
+
   it('tolera datos corruptos almacenados', () => {
     localStorage.setItem('taskapp_tareas', '{');
     expect(TestBed.inject(TareaService).obtenerTareas()).toEqual([]);

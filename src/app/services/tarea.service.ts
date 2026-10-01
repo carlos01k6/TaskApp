@@ -35,6 +35,14 @@ export class TareaService {
     this.actualizarTareas(this.tareasSubject.value.filter((tarea) => tarea.id !== id));
   }
 
+  editarTarea(id: number, datos: DatosNuevaTarea): void {
+    this.actualizarTareas(
+      this.tareasSubject.value.map((tarea) =>
+        tarea.id === id ? { ...tarea, ...datos } : tarea,
+      ),
+    );
+  }
+
   private cargarTareas(): Tarea[] {
     try {
       const contenido = localStorage.getItem(CLAVE_ALMACENAMIENTO);

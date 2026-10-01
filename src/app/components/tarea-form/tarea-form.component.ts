@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   IonButton,
@@ -15,7 +15,7 @@ import {
   IonToolbar,
   ModalController,
 } from '@ionic/angular';
-import { DatosNuevaTarea, Prioridad } from '../../models/tarea.interface';
+import { DatosNuevaTarea, Prioridad, Tarea } from '../../models/tarea.interface';
 
 @Component({
   selector: 'app-tarea-form',
@@ -38,7 +38,8 @@ import { DatosNuevaTarea, Prioridad } from '../../models/tarea.interface';
     ReactiveFormsModule,
   ],
 })
-export class TareaFormComponent {
+export class TareaFormComponent implements OnInit {
+  @Input() tarea?: Tarea;
   private readonly formBuilder = inject(FormBuilder);
   private readonly modalController = inject(ModalController);
 
@@ -47,6 +48,20 @@ export class TareaFormComponent {
     descripcion: ['', [Validators.required, Validators.maxLength(120)]],
     prioridad: ['Media' as Prioridad, Validators.required],
   });
+
+  ngOnInit(): void {
+    if (this.tarea) {
+      this.formulario.patchValue({
+        titulo: this.tarea.titulo,
+        descripcion: this.tarea.descripcion,
+        prioridad: this.tarea.prioridad,
+      });
+    }
+  }
+
+  get estaEditando(): boolean {
+    return this.tarea !== undefined;
+  }
 
   cancelar(): void {
     void this.modalController.dismiss(undefined, 'cancel');

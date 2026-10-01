@@ -14,7 +14,7 @@ import {
   ModalController,
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, bookOutline, checkmarkDoneOutline, clipboardOutline, trashOutline } from 'ionicons/icons';
+import { add, bookOutline, checkmarkDoneOutline, clipboardOutline, createOutline, trashOutline } from 'ionicons/icons';
 import { TareaFormComponent } from '../components/tarea-form/tarea-form.component';
 import { TareaItemComponent } from '../components/tarea-item/tarea-item.component';
 import { DatosNuevaTarea, Tarea } from '../models/tarea.interface';
@@ -46,7 +46,7 @@ export class HomePage {
   readonly tareas$ = this.tareaService.tareas$;
 
   constructor() {
-    addIcons({ add, bookOutline, checkmarkDoneOutline, clipboardOutline, trashOutline });
+    addIcons({ add, bookOutline, checkmarkDoneOutline, clipboardOutline, createOutline, trashOutline });
   }
 
   contarCompletadas(tareas: Tarea[]): number {
@@ -57,9 +57,10 @@ export class HomePage {
     this.tareaService.alternarCompletada(id);
   }
 
-  async abrirFormulario(): Promise<void> {
+  async abrirFormulario(tarea?: Tarea): Promise<void> {
     const modal = await this.modalController.create({
       component: TareaFormComponent,
+      componentProps: tarea ? { tarea } : undefined,
       cssClass: 'task-form-modal',
       breakpoints: [0, 0.88, 1],
       initialBreakpoint: 0.88,
@@ -70,7 +71,11 @@ export class HomePage {
 
     const { data, role } = await resultado;
     if (role === 'confirm' && data) {
-      this.tareaService.agregarTarea(data);
+      if (tarea) {
+        this.tareaService.editarTarea(tarea.id, data);
+      } else {
+        this.tareaService.agregarTarea(data);
+      }
     }
   }
 

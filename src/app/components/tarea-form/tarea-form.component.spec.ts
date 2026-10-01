@@ -21,4 +21,28 @@ describe('TareaFormComponent', () => {
     expect(formulario.controls.titulo.hasError('minlength')).toBe(true);
     expect(formulario.invalid).toBe(true);
   });
+
+  it('precarga los datos recibidos al editar una tarea', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TareaFormComponent],
+      providers: [provideIonicAngular()],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TareaFormComponent);
+    fixture.componentRef.setInput('tarea', {
+      id: 7,
+      titulo: 'Leer capítulo cinco',
+      descripcion: 'Preparar un resumen',
+      prioridad: 'Alta',
+      completada: true,
+    });
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.estaEditando).toBe(true);
+    expect(fixture.componentInstance.formulario.getRawValue()).toEqual({
+      titulo: 'Leer capítulo cinco',
+      descripcion: 'Preparar un resumen',
+      prioridad: 'Alta',
+    });
+  });
 });

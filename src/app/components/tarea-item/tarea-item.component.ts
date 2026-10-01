@@ -33,6 +33,7 @@ export class TareaItemComponent {
   @Input({ required: true }) tarea!: Tarea;
   @Output() readonly alternarSolicitado = new EventEmitter<number>();
   @Output() readonly eliminarSolicitado = new EventEmitter<number>();
+  @Output() readonly editarSolicitado = new EventEmitter<Tarea>();
 
   obtenerColorPrioridad(): 'danger' | 'warning' | 'success' {
     switch (this.tarea.prioridad) {
