@@ -7,8 +7,9 @@ Aplicación móvil híbrida para organizar tareas académicas por prioridad, mar
 - Node.js LTS
 - npm
 - Ionic CLI: `npm install -g @ionic/cli`
+- Para Android: Android Studio con Android SDK y un emulador configurado, o un dispositivo Android con depuración USB.
 
-## Clonar, instalar y ejecutar
+## Ejecutar en web
 
 ```bash
 git clone https://github.com/carlos01k6/TaskApp.git taskapp
@@ -16,6 +17,23 @@ cd taskapp
 npm install
 ionic serve
 ```
+
+Ionic sirve la versión web adaptable en el navegador, normalmente en `http://localhost:8100`.
+
+## Ejecutar en Android
+
+El proyecto Android de Capacitor está en `android/`. Para generar y abrir la app en Android Studio:
+
+```bash
+npm install
+npm run build
+npx cap sync android
+npx cap open android
+```
+
+En Android Studio, selecciona un emulador o conecta un dispositivo Android y pulsa **Run**. También puedes ejecutarla desde la terminal con `npx cap run android` si ya hay un dispositivo o emulador disponible. Después de modificar la app web, repite `npm run build` y `npx cap sync android` para copiar los cambios al proyecto nativo.
+
+La carpeta Android contiene el contenedor nativo; para compilarlo o instalarlo se necesita Android Studio/SDK. `ionic serve` por sí solo ejecuta la versión web, no instala una app en el teléfono.
 
 ## Estructura del proyecto
 
@@ -45,4 +63,4 @@ src/app/
 - Ionic 9 y Angular 22 con TypeScript estricto.
 - Formularios reactivos de Angular.
 - RxJS `BehaviorSubject` y almacenamiento del navegador (`localStorage`).
-- Capacitor para la integración móvil híbrida.
+- Capacitor 8 y plataforma Android para empaquetar la misma interfaz web como aplicación móvil híbrida.
