@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaskApp | Guía de desarrollo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20352d;
+      --muted: #596d63;
+      --green: #23765d;
+      --pale: #e8f1eb;
+      --line: #d9e2dc;
+      --paper: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 42px 54px 56px;
+      background: var(--paper);
+      color: var(--ink);
+      font: 14px/1.58 "Segoe UI", Arial, sans-serif;
+    }
+    h1, h2, h3 { color: var(--ink); line-height: 1.2; }
+    h1 { max-width: 600px; margin: 12px 0; font-size: 34px; }
+    h2 { margin: 26px 0 10px; font-size: 21px; }
+    h3 { margin: 17px 0 6px; font-size: 15px; }
+    p { margin: 7px 0 11px; }
+    a { color: var(--green); overflow-wrap: anywhere; }
+    .eyebrow { color: var(--green); font-size: 10px; font-weight: 800; letter-spacing: 1.3px; }
+    .lead { max-width: 670px; color: var(--muted); font-size: 16px; }
+    .title-band { padding: 25px 28px; border-left: 5px solid var(--green); background: var(--pale); }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 17px; color: var(--muted); font-size: 12px; }
+    .step { margin: 17px 0; padding: 0 0 14px; border-bottom: 1px solid var(--line); }
+    .step h3 { display: flex; gap: 9px; align-items: baseline; }
+    .number { color: var(--green); font-size: 12px; font-weight: 800; }
+    .callout { margin: 13px 0; padding: 11px 14px; border-left: 3px solid var(--green); background: #f2f7f3; color: var(--muted); }
+    .tree, pre { overflow-wrap: anywhere; white-space: pre-wrap; }
+    .tree { padding: 12px 15px; border: 1px solid var(--line); background: #f8faf8; color: #30453b; font: 12px/1.55 Consolas, monospace; }
+    .evidence { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 14px 0; }
+    figure { margin: 0; padding: 9px; border: 1px solid var(--line); break-inside: avoid; }
+    figure img { display: block; width: 100%; height: 310px; object-fit: contain; background: #f2f5f2; }
+    figcaption { margin-top: 7px; color: var(--muted); font-size: 11px; }
+    pre { margin: 9px 0; padding: 12px 14px; border-radius: 4px; background: #20352d; color: #f4f8f5; font: 12px/1.55 Consolas, monospace; }
+    code { font-family: Consolas, monospace; }
+    ul, ol { margin: 7px 0 12px; padding-left: 22px; }
+    li { margin: 4px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 11px 0; }
+    th, td { padding: 8px 9px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--pale); }
+    .small { color: var(--muted); font-size: 12px; }
+    .page-break { break-before: page; }
+    .footer { margin-top: 26px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    @page { size: A4; margin: 16mm 17mm; }
+    @media print {
+      body { max-width: none; padding: 0; font-size: 11pt; }
+      .title-band, .callout, pre, .tree, th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      h2, h3 { break-after: avoid; }
+      pre, .tree, table, .callout { break-inside: avoid; }
+      a { color: var(--green); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="title-band">
+    <p class="eyebrow">PRÁCTICA DE DESARROLLO MÓVIL HÍBRIDO</p>
+    <h1>TaskApp<br>Gestión de Tareas Académicas</h1>
+    <p class="lead">Guía paso a paso del diseño, la implementación, la persistencia y la ejecución web y Android.</p>
+    <div class="meta">
+      <span><strong>Tecnologías:</strong> Ionic, Angular, TypeScript y Capacitor</span>
+      <span><strong>Repositorio:</strong> <a href="https://github.com/carlos01k6/TaskApp">github.com/carlos01k6/TaskApp</a></span>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. Objetivo y alcance</h2>
+    <p>TaskApp permite organizar tareas académicas desde una interfaz adaptable. El usuario puede consultar la lista, registrar tareas, elegir su prioridad, marcarlas como completadas y eliminarlas. Los datos se conservan localmente entre sesiones.</p>
+    <p>La interfaz se implementa con componentes Ionic y Angular. Capacitor empaqueta los mismos recursos web dentro de una aplicación Android; por eso el proyecto puede ejecutarse en el navegador y en un emulador o dispositivo móvil.</p>
+
+    <h2>2. Estructura del proyecto</h2>
+    <div class="tree">src/app/
+├── components/
+│   ├── tarea-form/       Modal de alta y edición; formulario reactivo
+│   └── tarea-item/       Fila de tarea; prioridad, checkbox y acciones
+├── home/                 Página principal, lista y botón flotante
+├── models/               Modelo Tarea y tipos de prioridad
+└── services/             Estado y persistencia local
+android/                  Proyecto nativo generado con Capacitor
+README.md                 Instalación y ejecución web/Android
+docs/                     Guía paso a paso de la práctica</div>
+
+    <h2>3. Modelo de datos</h2>
+    <p>La interfaz <code>Tarea</code> define la información que se comparte entre la página, el formulario, el elemento visual y el servicio. La prioridad está restringida a tres valores para evitar datos inconsistentes.</p>
+    <pre>Prioridad = 'Alta' | 'Media' | 'Baja'
+
+Tarea {
+  id: number;
+  titulo: string;
+  descripcion: string;
+  prioridad: Prioridad;
+  completada: boolean;
+}</pre>
+    <p>El formulario entrega los campos de título, descripción y prioridad. El servicio asigna el identificador y crea cada tarea inicialmente como no completada.</p>
+  </section>
+
+  <section class="page-break">
+    <h2>4. Construcción de la interfaz</h2>
+    <div class="step">
+      <h3><span class="number">PASO 1</span> Página principal Ionic</h3>
+      <p>La vista de inicio se organiza con <code>ion-header</code>, <code>ion-title</code>, <code>ion-content</code> y <code>ion-footer</code>. El listado usa <code>ion-list</code>; el acceso de creación es un <code>ion-fab</code> fijo en la esquina inferior.</p>
+    </div>
+    <div class="step">
+      <h3><span class="number">PASO 2</span> Elemento reutilizable</h3>
+      <p><code>TareaItemComponent</code> presenta el título, la descripción y un <code>ion-badge</code> cuyo color depende de la prioridad. Incluye <code>ion-checkbox</code>, edición y eliminación. El texto se tacha cuando la tarea está completada.</p>
+    </div>
+    <div class="step">
+      <h3><span class="number">PASO 3</span> Comunicación entre componentes</h3>
+      <p>La página entrega la tarea al elemento con <code>@Input()</code>. El componente hijo notifica cambios mediante <code>@Output()</code> y eventos; la página llama al servicio para alternar, editar o eliminar la tarea.</p>
+    </div>
+    <div class="step">
+      <h3><span class="number">PASO 4</span> Formulario reactivo</h3>
+      <p>El botón flotante abre <code>TareaFormComponent</code> en un modal. El formulario usa <code>ReactiveFormsModule</code> y valida título obligatorio con mínimo cinco caracteres. También valida la descripción y permite seleccionar prioridad. El modal devuelve los datos a la página al confirmar.</p>
+    </div>
+
+    <h2>5. Servicio y persistencia</h2>
+    <p><code>TareaService</code> centraliza la lista y las operaciones de alta, edición, cambio de estado y eliminación. Un <code>BehaviorSubject</code> publica los cambios para que la vista se actualice automáticamente. El servicio serializa la lista en <code>localStorage</code> y la recupera al iniciar.</p>
+    <div class="callout"><strong>Resultado:</strong> las tareas permanecen en el navegador o WebView del dispositivo después de cerrar y volver a abrir la aplicación. El almacenamiento es local al dispositivo, no una sincronización en la nube.</div>
+
+    <h2>6. Estilos para móvil</h2>
+    <p>Los componentes Ionic proporcionan controles táctiles, desplazamiento y comportamiento de lista móvil. Los estilos ajustan el ancho del contenido, el tamaño de los controles y el espaciado para pantallas pequeñas, y limitan el ancho de lectura en pantallas grandes.</p>
+    <h3>Evidencias de ejecución</h3>
+    <div class="evidence">
+      <figure>
+        <img src="captura-web-movil.png" alt="TaskApp ejecutándose en el navegador con viewport móvil">
+        <figcaption>Versión web adaptable, abierta en viewport móvil.</figcaption>
+      </figure>
+      <figure>
+        <img src="captura-android-emulador.png" alt="TaskApp ejecutándose en el emulador Android">
+        <figcaption>Versión híbrida Android instalada y abierta en el emulador.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>7. Ejecución en navegador</h2>
+    <p>Requisitos: Node.js LTS, npm e Ionic CLI. Desde la carpeta raíz del proyecto:</p>
+    <pre>npm install
+ionic serve</pre>
+    <p>Se abre la versión web adaptable en la dirección local que muestra Ionic CLI (normalmente <code>http://localhost:8100</code>). En PowerShell de Windows, si la política bloquea los scripts de npm, pueden usarse <code>npm.cmd</code> e <code>ionic.cmd</code>.</p>
+
+    <h2>8. Ejecución como app Android</h2>
+    <p>Capacitor integra los recursos de Angular compilados en el contenedor nativo Android. Se necesita Android Studio, Android SDK y un emulador configurado o un dispositivo con depuración USB.</p>
+    <pre>npm install
+npm run build
+npx cap sync android
+npx cap open android</pre>
+    <ol>
+      <li>En Android Studio, selecciona un emulador o conecta un dispositivo.</li>
+      <li>Selecciona la configuración <code>app</code> y pulsa el botón verde <strong>Run</strong>.</li>
+      <li>Tras modificar el código web, ejecuta de nuevo <code>npm run build</code> y <code>npx cap sync android</code>.</li>
+    </ol>
+    <p>El proyecto Android requiere SDK Platform 36 y Gradle JDK 17. La app se sincronizó e inició en un emulador Android durante la comprobación práctica.</p>
+    <div class="callout"><strong>Web e híbrida:</strong> <code>ionic serve</code> sirve la app en el navegador. La ejecución Android requiere el proyecto nativo de Capacitor y el SDK; una no sustituye a la otra.</div>
+
+    <h2>9. Comprobaciones realizadas</h2>
+    <table>
+      <thead><tr><th>Comprobación</th><th>Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>Compilación web de producción</td><td>Correcta; genera recursos en <code>www/</code>.</td></tr>
+        <tr><td>Lint del proyecto</td><td>Correcto; todos los archivos analizados pasan.</td></tr>
+        <tr><td>Sincronización Android con Capacitor</td><td>Correcta; recursos copiados al proyecto Android.</td></tr>
+        <tr><td>Gradle y ejecución en emulador</td><td>La sincronización Gradle terminó correctamente con JDK 17 y TaskApp se inició en Makito.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h2>10. Requisitos cubiertos</h2>
+    <table>
+      <thead><tr><th>Requisito</th><th>Implementación</th></tr></thead>
+      <tbody>
+        <tr><td>UI Ionic principal</td><td>Header, contenido, footer, lista y botón flotante.</td></tr>
+        <tr><td>Visualización de tareas</td><td>Título, descripción corta y badge de prioridad Alta, Media o Baja.</td></tr>
+        <tr><td>Modelo Tarea</td><td>id, titulo, descripcion, prioridad y completada.</td></tr>
+        <tr><td>Alta con validación</td><td>Modal reactivo; título obligatorio y mínimo cinco caracteres.</td></tr>
+        <tr><td>Estado completado</td><td>Checkbox y texto tachado.</td></tr>
+        <tr><td>Eliminación</td><td>Acción con icono y gesto de deslizar.</td></tr>
+        <tr><td>Persistencia extra</td><td>Servicio Angular, estado reactivo y localStorage.</td></tr>
+        <tr><td>Interfaz híbrida</td><td>Capacitor con plataforma Android generada y ejecutada.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>11. Entrega del código fuente</h2>
+    <p><strong>Repositorio:</strong> <a href="https://github.com/carlos01k6/TaskApp">https://github.com/carlos01k6/TaskApp</a></p>
+    <p>El repositorio incluye el código fuente, el README y la plataforma Android de Capacitor. La carpeta <code>node_modules/</code> está excluida por <code>.gitignore</code>; no se debe subir al repositorio.</p>
+    <p>El README del repositorio contiene los comandos para instalar dependencias y ejecutar la aplicación con <code>ionic serve</code>, además de las instrucciones para Android.</p>
+
+    <h2>12. Funciones adicionales</h2>
+    <p>La app también permite editar tareas, confirma antes de eliminar, muestra un estado vacío y un resumen de tareas completadas. Estas extensiones complementan el objetivo sin cambiar los requisitos base.</p>
+    <div class="footer">TaskApp · Guía de desarrollo · Ionic + Angular + Capacitor</div>
+  </section>
+</body>
+</html>

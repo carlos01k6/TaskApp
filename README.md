@@ -64,3 +64,16 @@ src/app/
 - Formularios reactivos de Angular.
 - RxJS `BehaviorSubject` y almacenamiento del navegador (`localStorage`).
 - Capacitor 8 y plataforma Android para empaquetar la misma interfaz web como aplicación móvil híbrida.
+
+## Documentación de la práctica
+
+- [Guía paso a paso en PDF](docs/paso-a-paso-taskapp.pdf)
+- [Fuente HTML de la guía](docs/paso-a-paso-taskapp.html)
+
+## Entregables
+
+- **Código fuente:** [Repositorio TaskApp en GitHub](https://github.com/carlos01k6/TaskApp).
+- **Dependencias:** `node_modules/` no se incluye en el repositorio; está excluido por `.gitignore` y se recupera ejecutando `npm install`.
+- **Ejecución de desarrollo web:** instalar Ionic CLI con `npm install -g @ionic/cli` y ejecutar `ionic serve`.
+- **Aplicación Android:** el proyecto nativo está en `android/`; requiere Android Studio y Android SDK. Consulta la sección anterior para compilar y abrir la app.
+- **Paso a paso:** el PDF está disponible en `docs/paso-a-paso-taskapp.pdf`.
